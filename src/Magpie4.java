@@ -49,21 +49,21 @@ public class Magpie4
 		}
 
 		// Responses which require transformations
-		else if (findKeyword(statement, "I want to", 0) >= 0)
+		else if (findKeyword(statement, "I want", 0) >= 0)
 		{
-			response = transformIWantToStatement(statement);
+			response = transformIWantStatement(statement);
 		}
 
 		else
 		{
 			// Look for a two word (you <something> me)
 			// pattern
-			int psn = findKeyword(statement, "you", 0);
+			int psn = findKeyword(statement, "You", 0);
 
 			if (psn >= 0
-					&& findKeyword(statement, "me", psn) >= 0)
+					&& findKeyword(statement, "Me", psn) >= 0)
 			{
-				response = transformYouMeStatement(statement);
+				response = transformyoumeStatement(statement);
 			}
 			else
 			{
@@ -74,12 +74,12 @@ public class Magpie4
 	}
 	
 	/**
-	 * Take a statement with "I want to <something>." and transform it into 
-	 * "What would it mean to <something>?"
-	 * @param statement the user statement, assumed to contain "I want to"
+	 * Take a statement with "I want <something>." and transform it into
+	 * "Would you really be happy if you had" <something>?"
+	 * @param statement the user statement, assumed to contain "I want"
 	 * @return the transformed statement
 	 */
-	private String transformIWantToStatement(String statement)
+	private String transformIWantStatement(String statement)
 	{
 		//  Remove the final period, if there is one
 		statement = statement.trim();
@@ -93,21 +93,21 @@ public class Magpie4
 
 
 
-        int psn = findKeyword (statement, "I want to", 0);
-        String restOfStatement = statement.substring(psn + 9).trim();
-        return "What would it mean to " + restOfStatement + "?";
+        int psn = findKeyword (statement, "I want", 0);
+        String restOfStatement = statement.substring(psn + 6).trim();
+        return "Would you really be happy if you had " + restOfStatement + "?";
 
 	}
 
 	
 	
 	/**
-	 * Take a statement with "you <something> me" and transform it into 
-	 * "What makes you think that I <something> you?"
+	 * Take a statement with "I <something> you" and transform it into
+	 * "why do you <something> me?"
 	 * @param statement the user statement, assumed to contain "you" followed by "me"
 	 * @return the transformed statement
 	 */
-	private String transformYouMeStatement(String statement)
+	private String transformyoumeStatement(String statement)
 	{
 		//  Remove the final period, if there is one
 		statement = statement.trim();
