@@ -56,14 +56,14 @@ public class Magpie4
 
 		else
 		{
-			// Look for a two word (you <something> me)
+			// Look for a two word (I <something> you)
 			// pattern
 			int psn = findKeyword(statement, "I", 0);
 
 			if (psn >= 0
-					&& findKeyword(statement, "me", psn) >= 0)
+					&& findKeyword(statement, "you", psn) >= 0)
 			{
-				response = transformimeStatement(statement);
+				response = transformIyouStatement(statement);
 			}
 			else
 			{
@@ -104,10 +104,10 @@ public class Magpie4
 	/**
 	 * Take a statement with "I <something> you" and transform it into
 	 * "why do you <something> me?"
-	 * @param statement the user statement, assumed to contain "you" followed by "me"
+	 * @param statement the user statement, assumed to contain "I" followed by "you"
 	 * @return the transformed statement
 	 */
-	private String transformimeStatement(String statement)
+	private String transformIyouStatement(String statement)
 	{
 		//  Remove the final period, if there is one
 		statement = statement.trim();
@@ -120,9 +120,9 @@ public class Magpie4
 		}
 		
 		int psnOfI = findKeyword (statement, "I", 0);
-		int psnOfMe = findKeyword (statement, "me", psnOfI + 3);
+		int psnOfYou = findKeyword (statement, "you", psnOfI + 1);
 		
-		String restOfStatement = statement.substring(psnOfMe + 3, psnOfI).trim();
+		String restOfStatement = statement.substring(psnOfI + 1, psnOfYou).trim();
 		return "Why do you " + restOfStatement + " me?";
 	}
 	
